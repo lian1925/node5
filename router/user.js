@@ -5,14 +5,14 @@ var jwt = require('jsonwebtoken');
 
 
 /* GET user page. */
-router.get('/', function(req, res, next) {
+router.all('/', function(req, res) {
   res.send({
     message:"user page"
   });
 });
 
-router.post('/login', function(req,res,next){
-
+router.post('/login', function(req,res){
+  // return res.send("\\");
   var username = req.body.username;
   var password = req.body.password;
 
@@ -34,7 +34,7 @@ router.post('/login', function(req,res,next){
 
 })
 
-router.post('/info', function(req,res,next){
+router.post('/info', function(req,res){
 
   var token = req.body.token;
 

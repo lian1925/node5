@@ -1,5 +1,9 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // 跨域配置
 app.all('*', function(req, res, next) {  
@@ -22,7 +26,7 @@ app.use('/user', usersRouter);
 
 
 var server = app.listen(3000, function () {
-  var host = server.address().address;
+  var host = 'localhost';
   var port = server.address().port;
 
   console.log('Example app listening at http://%s:%s', host, port);
