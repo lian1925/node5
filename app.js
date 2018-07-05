@@ -1,7 +1,8 @@
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
 
+// 解析请求的body参数
+var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -15,21 +16,31 @@ app.all('*', function(req, res, next) {
   next();  
 });  
 
+// 路由配置
 var indexRouter = require('./router/index');
 var usersRouter = require('./router/user');
-
-
 // 匹配根路由
 app.use('/', indexRouter);
 // 匹配user路由
 app.use('/user', usersRouter);
 
+// 静态文件托管
 app.use(express.static('dist'));
 
+// HTTPs 配置
+var fs = require('fs');
+var privateKey = fs.readFileSync('./dist/keys/private.key','utf8');
+var certificate = fs.readFileSync('./dist/keys/certificate.crt','utf8');
 
-var server = app.listen(80, function () {
-  var host = 'localhost';
-  var port = server.address().port;
+var http = require('http');
+var https = require('https');
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(app);
 
-  console.log('Example app listening at http://%s:%s', host, port);
-});
+httpServer.listen(80, function(){
+  console.log("HTTP Server is running on: http://localhost:80");
+})
+
+httpsServer.listen(443, function(){
+  console.log("HTTPs Server is running on: http://localhost:443");
+})
