@@ -31,11 +31,15 @@ app.use(express.static('dist'));
 var fs = require('fs');
 var privateKey = fs.readFileSync('./dist/keys/private.key','utf8');
 var certificate = fs.readFileSync('./dist/keys/certificate.crt','utf8');
+var credentials = {
+  key: privateKey,
+  cert: certificate
+};
 
 var http = require('http');
 var https = require('https');
 var httpServer = http.createServer(app);
-var httpsServer = https.createServer(app);
+var httpsServer = https.createServer(credentials, app);
 
 httpServer.listen(80, function(){
   console.log("HTTP Server is running on: http://localhost:80");
