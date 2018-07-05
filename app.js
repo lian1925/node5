@@ -24,8 +24,10 @@ app.use('/', indexRouter);
 // 匹配user路由
 app.use('/user', usersRouter);
 
+app.use(express.static('dist'));
 
-var server = app.listen(3000, function () {
+
+var server = app.listen(80, function () {
   var host = 'localhost';
   var port = server.address().port;
 
